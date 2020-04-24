@@ -17,6 +17,9 @@ jobs:
         with:
           dotnet-version: 3.0.100
 
+      - name: Setup Nuget.exe
+        uses: warrenbuckley/Setup-Nuget@v1
+
       - name: Get the version
         id: get-version
         run: echo ::set-output name=VERSION::${GITHUB_REF#refs/tags/}
@@ -25,8 +28,15 @@ jobs:
         run: |
           dotnet pack src/AlfrescoClient --output .publish/X /p:Version=${{ steps.get-version.outputs.VERSION }}
 
-      - name: Push
+      # - name: Push
+      #   run: |
+      #     dotnet nuget push .publish/X/wk.AlfrescoClient.${{ steps.get-version.outputs.VERSION }}.nupkg \
+      #       -s https://nuget.pkg.github.com/wk-j/index.json \
+      #       -k ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Add GPR Source using nuget.exe
         run: |
-          dotnet nuget push .publish/X/wk.AlfrescoClient.${{ steps.get-version.outputs.VERSION }}.nupkg \
-            -s https://nuget.pkg.github.com/wk-j/index.json \
-            -k ${{ secrets.GITHUB_TOKEN }}
+          nuget sources add -name "GPR" -Source https://nuget.pkg.github.com/wk-j/index.json -Username wk-j -Password ${{ secrets.GITHUB_TOKEN }}
+      - name: NuGet push
+        run: |
+          nuget push .publish/**/*.nupkg -Source "GPR" -SkipDuplicate
