@@ -3,6 +3,10 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <PackageId>wk.AlfrescoClient</PackageId>
+    <Authors>wk-j</Authors>
+    <Company>wk-j</Company>
+    <PackageDescription>Alfresco client</PackageDescription>
+    <RepositoryUrl>https://github.com/wk-j/alfresco-client</RepositoryUrl>
   </PropertyGroup>
 
   <ItemGroup>

@@ -28,5 +28,5 @@ jobs:
       - name: Push
         run: |
           dotnet nuget push .publish/X/wk.AlfrescoClient.${{ steps.get-version.outputs.VERSION }}.nupkg \
-            -s https://nuget.pkg.github.com/wk-j/alfresco-client \
+            -s https://nuget.pkg.github.com/wk-j/index.json \
             -k ${{ secrets.GITHUB_TOKEN }}
